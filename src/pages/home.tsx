@@ -1,15 +1,19 @@
-import Hero from "@/components/home/hero"
-import FeaturesCard from "@/components/home/features-card"
+import Hero from "@/components/sections/hero";
+import About from "@/components/sections/about";
+import Skills from "@/components/sections/skills";
+import Projects from "@/components/sections/projects";
+import Contact from "@/components/sections/contact";
 
 const Home = () => {
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center bg-background text-foreground">
-      <div className="max-w-4xl mx-auto p-8 text-center space-y-6">
-        <Hero />
-        <FeaturesCard />
-      </div>
-    </div>
-  )
-}
+    <main>
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
+    </main>
+  );
+};
 
-export default Home
+export default Home;

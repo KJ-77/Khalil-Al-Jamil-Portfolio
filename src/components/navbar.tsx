@@ -1,34 +1,67 @@
-import { Link } from "react-router-dom"
-import { useTranslation } from "react-i18next"
-import { ModeToggle } from "@/components/mode-toggle"
-import { LanguageToggle } from "@/components/language-toggle"
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
-  const { t } = useTranslation()
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-14 items-center px-4">
-        <div className="mr-4 flex">
-          <Link to="/" className="mr-6 flex items-center space-x-2">
-            <span className="font-bold">App</span>
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <Link
-              to="/"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              {t("nav.home")}
-            </Link>
-          </nav>
-        </div>
-        <div className="flex flex-1 items-center justify-end space-x-2">
-          <LanguageToggle />
-          <ModeToggle />
-        </div>
-      </div>
-    </header>
-  )
-}
+    <header className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-14 items-center justify-between px-4">
+        {/* Logo / name */}
+        <a
+          href="#hero"
+          className="text-lg font-bold tracking-tight hover:text-foreground/80 transition-colors"
+        >
+          KJ
+        </a>
 
-export default Navbar
+        {/* Desktop nav links */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+
+        {/* Mobile menu toggle */}
+        <button
+          className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
+
+      {/* Mobile dropdown */}
+      {isOpen && (
+        <nav className="md:hidden border-t border-border bg-background/95 backdrop-blur">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+      )}
+    </header>
+  );
+};
+
+export default Navbar;
