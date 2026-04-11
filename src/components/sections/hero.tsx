@@ -20,12 +20,12 @@ const Hero = () => {
         direction="bottom"
       />
 
-      <p className="mt-6 text-muted-foreground max-w-lg text-base md:text-lg">
-        I build and deploy scalable web applications — from frontend interfaces
-        to cloud infrastructure.
+      <p className="mt-6 text-muted-foreground max-w-lg text-base md:text-lg mx-auto">
+        I build and deploy scalable web applications — from frontend
+        interfaces to cloud infrastructure.
       </p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-4">
+      <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
         <Button size="lg" asChild>
           <a href="#projects">
             <ArrowDown className="mr-2 h-4 w-4" />

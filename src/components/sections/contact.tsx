@@ -1,7 +1,11 @@
+import { useState, type FormEvent } from "react";
 import FadeIn from "@/components/sections/fade-in";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Mail, Linkedin, Github, Phone } from "lucide-react";
+import { Mail, Linkedin, Github, Phone, Send } from "lucide-react";
 
 const contactLinks = [
   {
@@ -31,56 +35,142 @@ const contactLinks = [
 ];
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  // TODO: wire up EmailJS here — call emailjs.send() with your service/template IDs
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <section id="contact" className="py-24 px-4">
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="max-w-5xl mx-auto">
         <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
             Let's Work Together
           </h2>
-          <p className="text-muted-foreground text-lg mb-12">
+          <p className="text-muted-foreground text-lg mb-16 text-center max-w-xl mx-auto">
             I'm always open to new opportunities, collaborations, or just a
             friendly chat about tech. Feel free to reach out.
           </p>
         </FadeIn>
 
-        {/* Contact links */}
-        <FadeIn delay={0.15}>
-          <div className="space-y-4">
-            {contactLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={
-                  link.href.startsWith("http")
-                    ? "noopener noreferrer"
-                    : undefined
-                }
-                className="flex items-center justify-center gap-3 text-muted-foreground hover:text-foreground transition-colors py-2"
-              >
-                <link.icon className="h-5 w-5" />
-                <span>{link.display}</span>
-              </a>
-            ))}
-          </div>
-        </FadeIn>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Contact links */}
+          <FadeIn delay={0.1}>
+            <div>
+              <h3 className="text-xl font-semibold mb-6">Get in Touch</h3>
+              <div className="space-y-5">
+                {contactLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target={
+                      link.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      link.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <link.icon className="h-5 w-5 shrink-0" />
+                    <span className="text-sm">{link.display}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
 
-        <FadeIn delay={0.25}>
-          <div className="mt-12">
-            <Button size="lg" asChild>
-              <a href="mailto:Khalil.aljamil2004@gmail.com">
-                <Mail className="mr-2 h-4 w-4" />
-                Send Me an Email
-              </a>
-            </Button>
-          </div>
-        </FadeIn>
+          {/* Email form — ready for EmailJS integration */}
+          <FadeIn delay={0.2}>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="subject">Subject</Label>
+                <Input
+                  id="subject"
+                  placeholder="What's this about?"
+                  value={formData.subject}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      subject: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message">Message</Label>
+                <Textarea
+                  id="message"
+                  placeholder="Your message..."
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      message: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+
+              <Button type="submit" size="lg" className="w-full">
+                <Send className="mr-2 h-4 w-4" />
+                Send Message
+              </Button>
+            </form>
+          </FadeIn>
+        </div>
 
         {/* Footer */}
         <FadeIn delay={0.3}>
-          <Separator className="my-12" />
-          <p className="text-sm text-muted-foreground">
+          <Separator className="my-16" />
+          <p className="text-sm text-muted-foreground text-center">
             &copy; {new Date().getFullYear()} Khalil Al Jamil. All rights
             reserved.
           </p>

@@ -2,12 +2,14 @@ import FadeIn from "@/components/sections/fade-in";
 import SpotlightCard from "@/components/reactbits/spotlight-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ImageIcon } from "lucide-react";
 
 interface Project {
   title: string;
   description: string;
   tech: string[];
+  // TODO: add actual image paths once you have screenshots
+  image?: string;
   github?: string;
   live?: string;
 }
@@ -53,49 +55,67 @@ const Projects = () => {
           {projects.map((project, i) => (
             <FadeIn key={project.title} delay={0.1 * (i + 1)}>
               <SpotlightCard
-                className="h-full flex flex-col"
+                className="h-full flex flex-col !p-0"
                 spotlightColor="rgba(255, 255, 255, 0.15)"
               >
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 flex-1">
-                  {project.description}
-                </p>
+                {/* Project image / placeholder */}
+                {project.image ? (
+                  <img
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    className="w-full aspect-video object-cover rounded-t-xl"
+                  />
+                ) : (
+                  <div className="w-full aspect-video bg-secondary/50 rounded-t-xl flex items-center justify-center">
+                    <ImageIcon className="h-10 w-10 text-muted-foreground/40" />
+                  </div>
+                )}
 
-                {/* Tech stack badges */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.tech.map((t) => (
-                    <Badge key={t} variant="outline" className="text-xs">
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
+                {/* Card content */}
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-xl font-semibold mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 flex-1">
+                    {project.description}
+                  </p>
 
-                {/* Links */}
-                <div className="flex gap-2 mt-auto">
-                  {project.github && (
-                    <Button variant="ghost" size="sm" asChild>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Github className="mr-1.5 h-4 w-4" />
-                        Code
-                      </a>
-                    </Button>
-                  )}
-                  {project.live && (
-                    <Button variant="ghost" size="sm" asChild>
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="mr-1.5 h-4 w-4" />
-                        Live
-                      </a>
-                    </Button>
-                  )}
+                  {/* Tech stack badges */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tech.map((t) => (
+                      <Badge key={t} variant="outline" className="text-xs">
+                        {t}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div className="flex gap-2 mt-auto">
+                    {project.github && (
+                      <Button variant="ghost" size="sm" asChild>
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Github className="mr-1.5 h-4 w-4" />
+                          Code
+                        </a>
+                      </Button>
+                    )}
+                    {project.live && (
+                      <Button variant="ghost" size="sm" asChild>
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="mr-1.5 h-4 w-4" />
+                          Live
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </SpotlightCard>
             </FadeIn>
