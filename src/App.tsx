@@ -2,32 +2,32 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Navbar from "@/components/navbar"
 import Home from "@/pages/home"
 import NotFound from "@/pages/not-found"
-// @ts-expect-error — JS component from react-bits, no type declarations
-import LightRays from "@/components/LightRays"
+import { VariantProvider } from "@/contexts/variant-context"
+import { BackgroundProvider } from "@/contexts/background-context"
+import { FontProvider } from "@/contexts/font-context"
+import ActiveBackground from "@/components/backgrounds/active-background"
 
 const App = () => {
   return (
     <Router>
-      {/* Fixed fullscreen background — stays in place while content scrolls */}
-      <div className="fixed inset-0 z-0">
-        <LightRays
-          raysColor="#ffffff"
-          raysSpeed={0.4}
-          lightSpread={1.2}
-          rayLength={2.5}
-          fadeDistance={1.2}
-          followMouse
-          mouseInfluence={0.08}
-        />
-      </div>
+      <VariantProvider>
+        <FontProvider>
+          <BackgroundProvider>
+            {/* Fixed fullscreen background — effect and color are independently selectable */}
+            <div className="fixed inset-0 z-0">
+              <ActiveBackground />
+            </div>
 
-      <div className="relative z-10">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+            <div className="relative z-10">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </BackgroundProvider>
+        </FontProvider>
+      </VariantProvider>
     </Router>
   )
 }

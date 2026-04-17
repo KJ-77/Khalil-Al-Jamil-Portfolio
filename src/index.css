@@ -119,6 +119,91 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* ── Font overrides ────────────────────────────────────────────────────
+   Each font class is applied to <html> by the FontProvider.
+   Overrides Tailwind's default system font stack.
+   ──────────────────────────────────────────────────────────────────── */
+html.font-inter {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+html.font-space-grotesk {
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+html.font-outfit {
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+}
+html.font-sora {
+  font-family: 'Sora', ui-sans-serif, system-ui, sans-serif;
+}
+html.font-plus-jakarta {
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Variant color overrides (dark mode only) ────────────────────────────
+   Each variant class is applied to <html> by the VariantProvider.
+   Only the variables that need accent coloring are overridden.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Teal — technical, modern, calm confidence */
+.dark.variant-teal {
+  --primary: oklch(0.75 0.14 185);
+  --primary-foreground: oklch(0.16 0.04 185);
+  --accent: oklch(0.23 0.035 185);
+  --accent-foreground: oklch(0.90 0.05 185);
+  --ring: oklch(0.65 0.12 185);
+  --border: oklch(0.45 0.05 185 / 15%);
+  --input: oklch(0.50 0.05 185 / 18%);
+  --muted-foreground: oklch(0.68 0.04 185);
+  --card: oklch(0.19 0.012 185);
+  --secondary: oklch(0.25 0.025 185);
+  --secondary-foreground: oklch(0.92 0.04 185);
+}
+
+/* Amber — energetic, warm, stands out */
+.dark.variant-amber {
+  --primary: oklch(0.80 0.155 75);
+  --primary-foreground: oklch(0.18 0.04 75);
+  --accent: oklch(0.23 0.035 75);
+  --accent-foreground: oklch(0.92 0.05 75);
+  --ring: oklch(0.70 0.12 75);
+  --border: oklch(0.45 0.05 75 / 15%);
+  --input: oklch(0.50 0.05 75 / 18%);
+  --muted-foreground: oklch(0.68 0.04 75);
+  --card: oklch(0.19 0.012 75);
+  --secondary: oklch(0.25 0.025 75);
+  --secondary-foreground: oklch(0.92 0.04 75);
+}
+
+/* Indigo — professional, deep, trustworthy */
+.dark.variant-indigo {
+  --primary: oklch(0.68 0.17 270);
+  --primary-foreground: oklch(0.98 0.02 270);
+  --accent: oklch(0.23 0.04 270);
+  --accent-foreground: oklch(0.90 0.05 270);
+  --ring: oklch(0.58 0.14 270);
+  --border: oklch(0.45 0.05 270 / 15%);
+  --input: oklch(0.50 0.05 270 / 18%);
+  --muted-foreground: oklch(0.68 0.04 270);
+  --card: oklch(0.19 0.015 270);
+  --secondary: oklch(0.25 0.03 270);
+  --secondary-foreground: oklch(0.92 0.04 270);
+}
+
+/* Emerald — growth, reliability, infrastructure */
+.dark.variant-emerald {
+  --primary: oklch(0.72 0.17 160);
+  --primary-foreground: oklch(0.16 0.04 160);
+  --accent: oklch(0.23 0.035 160);
+  --accent-foreground: oklch(0.90 0.05 160);
+  --ring: oklch(0.62 0.13 160);
+  --border: oklch(0.45 0.05 160 / 15%);
+  --input: oklch(0.50 0.05 160 / 18%);
+  --muted-foreground: oklch(0.68 0.04 160);
+  --card: oklch(0.19 0.012 160);
+  --secondary: oklch(0.25 0.025 160);
+  --secondary-foreground: oklch(0.92 0.04 160);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -127,3 +212,23 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* Aurora background blob animations */
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(10%, 5%) scale(1.1); }
+  66% { transform: translate(-5%, -8%) scale(0.95); }
+}
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-8%, 6%) scale(1.05); }
+  66% { transform: translate(6%, -4%) scale(1.1); }
+}
+@keyframes aurora-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5%, -10%) scale(1.15); }
+  66% { transform: translate(-10%, 5%) scale(0.9); }
+}
+.animate-aurora-1 { animation: aurora-1 20s ease-in-out infinite; }
+.animate-aurora-2 { animation: aurora-2 25s ease-in-out infinite; }
+.animate-aurora-3 { animation: aurora-3 18s ease-in-out infinite; }
