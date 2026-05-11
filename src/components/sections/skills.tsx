@@ -14,16 +14,35 @@ const categories = [
   },
   {
     title: "Backend",
-    skills: ["Node.js", "Bun", "Deno", "Express", "REST APIs"],
+    skills: [
+      "Node.js",
+      "Express",
+      "REST APIs",
+      "SQL",
+      "Java",
+      "Python",
+    ],
   },
   {
     title: "DevOps & Cloud",
     skills: [
       "AWS",
       "Docker",
-      "Kubernetes",
+      "Terraform",
+      "Git",
+      "Linux / bash",
       "CI/CD",
       "Infrastructure as Code",
+    ],
+  },
+  {
+    title: "Soft Skills",
+    skills: [
+      "Independent",
+      "Problem Solving",
+      "Analytical Thinking",
+      "Communication",
+      "Time Management",
     ],
   },
 ];

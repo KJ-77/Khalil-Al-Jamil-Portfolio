@@ -258,15 +258,22 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .dep-item .d-arr{font-family:var(--grotesk);font-size:20px;color:var(--fg-mute);transition:color .2s,transform .2s;text-align:right;}
 .dep-item:hover .d-arr{color:var(--violet);transform:translateX(4px);}
 
-.dep-expand{grid-column:1/-1;max-height:0;overflow:hidden;transition:max-height .35s ease;}
-.dep-item.open .dep-expand{max-height:500px;}
+.dep-expand{grid-column:1/-1;max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.dep-item.open .dep-expand{max-height:700px;}
+@media(max-width:900px){.dep-item.open .dep-expand{max-height:1600px;}}
 .dep-expand-inner{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:20px 0 4px;border-top:1px dashed var(--line-s);}
 @media(max-width:900px){.dep-expand-inner{grid-template-columns:1fr;}}
 .dep-body p{font-family:var(--grotesk);font-size:14.5px;color:var(--fg-dim);line-height:1.65;margin:0 0 14px;}
 .dep-meta{display:grid;grid-template-columns:100px 1fr;gap:4px 14px;font-family:var(--mono);font-size:11px;}
 .dep-meta dt{color:var(--fg-mute);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;align-self:center;}
 .dep-meta dd{margin:0;color:var(--cyan);}
-.dep-actions{margin-top:16px;display:flex;gap:10px;}
+.dep-actions{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;}
+.dep-note{
+  margin:14px 0 0;font-family:var(--mono);font-size:11px;line-height:1.55;
+  color:var(--fg-mute);font-style:italic;letter-spacing:.02em;
+  padding:10px 14px;border-left:2px solid var(--warn);background:oklch(0.80 0.18 70 / 0.05);
+}
+.dep-note .dep-note-label{color:var(--warn);font-style:normal;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:9.5px;margin-right:6px;}
 
 .dep-mock{border:1px solid var(--line-s);background:oklch(0.11 0.025 295 / 0.7);position:relative;padding:20px;overflow:hidden;}
 .dep-mock svg{width:100%;display:block;}
@@ -370,6 +377,97 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 @media(max-width:700px){
   .dep-item{grid-template-columns:40px 1fr 28px;}
   .dep-item .d-stack,.dep-item .d-status{display:none;}
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   MOBILE REFINEMENTS
+   Phones (≤640px) and small phones (≤400px) — keeps the cyberpunk feel
+   intact while reflowing the chrome that wasn't designed for narrow viewports.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* Tablet & phone — strip the topbar down to logo + ONLINE + CONFIG */
+@media(max-width:760px){
+  .topbar{padding:0 16px;height:48px;}
+  .topbar .left{gap:12px;}
+  .topbar .right{gap:10px;}
+  .topbar .logo{font-size:12px;}
+  .topbar .nav-links{display:none;}
+  .topbar .live{font-size:9.5px;}
+  .topbar .btn-contact{padding:5px 10px;font-size:9px;letter-spacing:.14em;}
+  .page{padding-top:48px;}
+}
+
+/* Phones — lighten the kanji watermark so it doesn't bleed into copy */
+@media(max-width:640px){
+  section{padding:64px 18px;}
+  .kanji-bg{font-size:80px;right:8px;opacity:.6;}
+  .sec-head{gap:10px;margin-bottom:32px;font-size:9px;letter-spacing:.18em;flex-wrap:wrap;}
+  .sec-head .jp{margin-left:0;}
+
+  /* Hero — keep proportional but stop the giant headline from overflowing */
+  .hero-name{font-size:clamp(40px,12vw,72px);line-height:.95;}
+  .hero-tag{font-size:10px;letter-spacing:.22em;margin-bottom:18px;}
+  .hero-dek{font-size:14.5px;}
+  .katana-wrap{margin:24px 0;gap:14px;}
+  .katana-handle{width:48px;}
+
+  /* Hero strip — 2x2 cells with tighter padding */
+  .strip-cell{padding:16px 18px;font-size:10px;}
+  .strip-cell .val{font-size:clamp(26px,8vw,40px);}
+  .strip-cell .sub{font-size:9px;}
+
+  /* ID card — let the dl breathe on narrow screens */
+  .id-card-v3{padding:22px 18px;}
+  .id-card-v3 dl{grid-template-columns:64px 1fr;gap:6px 10px;font-size:11px;}
+  .id-card-v3 dt{font-size:9px;}
+  .id-card-v3 dd{word-break:break-word;}
+
+  /* Skills — looser pills, no sticky topology when stacked */
+  .arch-topo{position:static;}
+  .cluster{padding:18px 16px;}
+  .pill{padding:5px 10px;font-size:11px;}
+
+  /* Deployments — open card stacks: image, body, meta, actions */
+  .dep-item{padding:22px 0;gap:14px;}
+  .dep-item .d-title{font-size:clamp(22px,6vw,28px);}
+  .dep-item .d-tag{font-size:9.5px;letter-spacing:.16em;margin-top:4px;}
+  .dep-expand-inner{gap:18px;padding-top:16px;}
+  .dep-mock{padding:14px;}
+  .dep-body p{font-size:14px;}
+  .dep-meta{grid-template-columns:80px 1fr;gap:4px 10px;font-size:10.5px;}
+  .dep-meta dd{word-break:break-word;}
+  .dep-actions{gap:8px;}
+  .dep-actions .btn-v3{flex:1;justify-content:center;padding:11px 12px;font-size:10px;letter-spacing:.12em;}
+  .dep-note{font-size:10.5px;padding:10px 12px;}
+
+  /* Timeline — pull the rail closer to the edge */
+  .tl-v3{padding-left:18px;}
+  .tl-entry{padding:0 0 36px 24px;}
+  .tl-entry .t-title{font-size:clamp(20px,5vw,26px);}
+  .tl-entry .t-desc{font-size:13.5px;}
+
+  /* Contact — stack key/value rows so long emails don't overflow */
+  .contact-big{font-size:clamp(40px,11vw,68px);}
+  .contact-sub{font-size:11px;}
+  .contact-panel{padding:20px 16px;}
+  .contact-row{
+    grid-template-columns:1fr;gap:4px;padding:14px 0;
+  }
+  .contact-row:hover{padding-left:0;padding-right:0;}
+  .contact-row .ck{font-size:9px;}
+  .contact-row .cv{font-size:13px;word-break:break-all;}
+  .contact-row .ca{justify-self:start;font-size:9px;}
+}
+
+/* Tiny phones — last-mile fixes for ≤400px (older iPhone SE etc.) */
+@media(max-width:400px){
+  section{padding:56px 14px;}
+  .topbar{padding:0 12px;}
+  .hero-name{font-size:clamp(34px,11vw,56px);}
+  .hero-strip{grid-template-columns:1fr 1fr;}
+  .strip-cell{padding:14px;}
+  .id-card-v3 dl{grid-template-columns:56px 1fr;}
+  .dep-item{grid-template-columns:32px 1fr 24px;gap:10px;}
 }
 </style>
 </head>
@@ -629,7 +727,7 @@ function Identity() {
               <dt>handle</dt><dd className="hl">khalil.al.jamil</dd>
               <dt>loc</dt><dd>Beirut, LB · remote</dd>
               <dt>role</dt><dd className="hl">Full-Stack / DevOps</dd>
-              <dt>stack</dt><dd>TS · Node · AWS · K8s</dd>
+              <dt>stack</dt><dd>TS · Node · AWS · Docker</dd>
               <dt>lang</dt><dd>EN · AR · FR</dd>
               <dt>status</dt><dd className="hl">Open to work</dd>
             </dl>
@@ -644,10 +742,10 @@ window.Identity = Identity;
 
 // ── ARCHITECTURE ──
 const SKILLS_DATA = [
-  { cat: "INTERFACE LAYER", accent: "◈", items: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Next.js", "shadcn/ui"] },
-  { cat: "SERVICE LAYER",   accent: "◉", items: ["Node.js", "Bun", "Deno", "Express", "REST APIs", "PostgreSQL", "MySQL", "Stripe"] },
-  { cat: "PLATFORM LAYER",  accent: "◆", items: ["AWS Lambda", "API Gateway", "Cognito", "RDS", "S3", "Docker", "Kubernetes", "Vercel"] },
-  { cat: "OPERATIONS",      accent: "◇", items: ["Serverless Framework", "CI/CD", "Git", "Vitest", "EmailJS", "Infrastructure as Code"] },
+  { cat: "INTERFACE LAYER", accent: "◈", items: ["React", "TypeScript", "JavaScript", "Tailwind CSS", "HTML / CSS"] },
+  { cat: "SERVICE LAYER",   accent: "◉", items: ["Node.js", "Express", "REST APIs", "SQL", "Java", "Python"] },
+  { cat: "PLATFORM LAYER",  accent: "◆", items: ["AWS", "Docker", "Terraform", "Git", "Linux / bash", "CI/CD", "Infrastructure as Code"] },
+  { cat: "OPERATOR TRAITS", accent: "◇", items: ["Independent", "Problem Solving", "Analytical Thinking", "Communication", "Time Management"] },
 ];
 
 function ArchTopoSVG() {
@@ -741,15 +839,22 @@ window.Architecture = Architecture;
 const DEPS = [
   { id:"way",     no:"№01", title:"Way",     tag:"Tutoring & Scheduling SaaS", stack:"React 19 · TS · Lambda · Postgres · Cognito", status:"ok",
     body:"Multi-app platform for a Beirut tutoring business. Public client portal, internal admin dashboard, and a serverless backend on AWS. Two Cognito user pools cleanly separate staff and clients; Postgres on RDS with a typed access layer; Lambda functions deployed via Serverless Framework. Tutors, packages, sessions, and schedules all flow through one API surface.",
-    meta:{ regions:"eu-west-3", role:"Full-Stack / DevOps", scope:"3 apps · 1 backend", repo:"private (client work)", year:"2025–26" },
+    meta:{ regions:"eu-west-3", role:"Full-Stack / DevOps", scope:"3 apps · 1 backend", repo:"github.com/KJ-77/Way", year:"2025–26" },
+    live:"https://waybeirut.com",
+    repo:"https://github.com/KJ-77/Way",
     image:"/assets/way.png", mock:"nodes" },
   { id:"orsa",    no:"№02", title:"Orsa Group", tag:"Olive Oil E-Commerce", stack:"React · Next.js · Lambda · MySQL · Stripe", status:"ok",
     body:"Full-stack e-commerce for an olive oil brand. Customer storefront with cart, checkout, and Stripe payments; a Next.js admin dashboard for products, orders, and inventory; serverless AWS backend (Lambda + API Gateway + MySQL + S3 for assets). Bilingual EN/AR storefront with GSAP-driven motion and Cognito-backed auth.",
-    meta:{ regions:"eu-west", role:"Full-Stack / DevOps", scope:"storefront · admin · API", repo:"github.com/KJ-77", year:"2024" },
+    meta:{ regions:"vercel edge", role:"Full-Stack / DevOps", scope:"storefront · admin · API", repo:"github.com/KJ-77/ORSA-GROUP1", year:"2024" },
+    live:"https://orsa-group-1.vercel.app/",
+    liveNote:"Original domain (orsagroup.online) expired and the owners didn't renew — Vercel preview URL kept for portfolio purposes.",
+    repo:"https://github.com/KJ-77/ORSA-GROUP1",
     image:"/assets/orsa-group.png", mock:"chart" },
   { id:"hova",    no:"№03", title:"Hova",    tag:"Brand Site · Belgian Chocolate", stack:"React 19 · TS · Vite · Tailwind · Framer", status:"ok",
     body:"A polished single-page marketing site for a Belgian chocolate brand. Animated hero, product gallery with detail views, EmailJS contact form, and a WhatsApp click-to-chat shortcut. Fully responsive, deployed on Vercel with Google Analytics and Meta Pixel wired up for conversion tracking — built tight, shipped fast.",
-    meta:{ regions:"vercel edge", role:"Frontend", scope:"single-page · responsive", repo:"github.com/KJ-77", year:"2025" },
+    meta:{ regions:"vercel edge", role:"Frontend", scope:"single-page · responsive", repo:"github.com/KJ-77/Hova", year:"2025" },
+    live:"https://hovalb.com",
+    repo:"https://github.com/KJ-77/Hova",
     image:"/assets/hova.png", mock:"map" },
 ];
 
@@ -847,9 +952,19 @@ function Deployments() {
                     <dt>year</dt><dd>{d.meta.year}</dd>
                   </dl>
                   <div className="dep-actions">
-                    <a className="btn-v3" href="https://github.com/KJ-77" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}>GitHub ↗</a>
+                    {d.live && (
+                      <a className="btn-v3" href={d.live} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}>Visit Live ↗</a>
+                    )}
+                    {d.repo && (
+                      <a className="btn-v3 ghost" href={d.repo} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}>Source Code ↗</a>
+                    )}
                     <a className="btn-v3 ghost" href="#signal" onClick={e=>e.stopPropagation()}>Discuss →</a>
                   </div>
+                  {d.liveNote && (
+                    <p className="dep-note">
+                      <span className="dep-note-label">Note:</span> {d.liveNote}
+                    </p>
+                  )}
                 </div>
                 <div className="dep-mock">
                   <div className="mock-label">◆ {d.tag.toUpperCase()} / FIG.{d.no}</div>

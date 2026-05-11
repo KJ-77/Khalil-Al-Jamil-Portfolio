@@ -16,6 +16,7 @@ interface Project {
   image?: string;
   github?: string;
   live?: string;
+  liveNote?: string; // small disclaimer rendered under the buttons (e.g. "domain expired")
 }
 
 // First project = featured/hero. Order matters here.
@@ -44,7 +45,8 @@ const projects: Project[] = [
       "i18next",
     ],
     image: "/assets/way.png",
-    github: "https://github.com/KJ-77",
+    github: "https://github.com/KJ-77/Way",
+    live: "https://waybeirut.com",
   },
   {
     title: "Orsa Group",
@@ -61,7 +63,10 @@ const projects: Project[] = [
       "GSAP",
     ],
     image: "/assets/orsa-group.png",
-    github: "https://github.com/KJ-77",
+    github: "https://github.com/KJ-77/ORSA-GROUP1",
+    live: "https://orsa-group-1.vercel.app/",
+    liveNote:
+      "Original domain (orsagroup.online) expired and the owners didn't renew — Vercel preview URL kept for portfolio purposes.",
   },
   {
     title: "Hova",
@@ -77,7 +82,8 @@ const projects: Project[] = [
       "Vercel",
     ],
     image: "/assets/hova.png",
-    github: "https://github.com/KJ-77",
+    github: "https://github.com/KJ-77/Hova",
+    live: "https://hovalb.com",
   },
 ];
 
@@ -160,23 +166,31 @@ const FeaturedProjectCard = ({ project }: { project: Project }) => (
           ))}
         </div>
 
-        {/* Links — pushed to the bottom */}
-        <div className="flex gap-2 mt-auto">
-          {project.github && (
-            <Button variant="secondary" size="sm" asChild>
-              <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-1.5 h-4 w-4" />
-                Code
-              </a>
-            </Button>
-          )}
-          {project.live && (
-            <Button variant="ghost" size="sm" asChild>
-              <a href={project.live} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-1.5 h-4 w-4" />
-                Live
-              </a>
-            </Button>
+        {/* Links — primary CTA is "Visit live" since that's what a recruiter wants */}
+        <div className="mt-auto">
+          <div className="flex flex-wrap gap-2">
+            {project.live && (
+              <Button size="sm" asChild>
+                <a href={project.live} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="mr-1.5 h-4 w-4" />
+                  Visit Live
+                </a>
+              </Button>
+            )}
+            {project.github && (
+              <Button variant="secondary" size="sm" asChild>
+                <a href={project.github} target="_blank" rel="noopener noreferrer">
+                  <Github className="mr-1.5 h-4 w-4" />
+                  Source Code
+                </a>
+              </Button>
+            )}
+          </div>
+          {project.liveNote && (
+            <p className="mt-2.5 text-xs italic text-muted-foreground/80 leading-relaxed">
+              <span className="font-semibold not-italic text-muted-foreground">Note: </span>
+              {project.liveNote}
+            </p>
           )}
         </div>
       </div>
@@ -219,22 +233,30 @@ const CompactProjectCard = ({ project }: { project: Project }) => (
         ))}
       </div>
 
-      <div className="flex gap-2 mt-auto">
-        {project.github && (
-          <Button variant="ghost" size="sm" asChild>
-            <a href={project.github} target="_blank" rel="noopener noreferrer">
-              <Github className="mr-1.5 h-4 w-4" />
-              Code
-            </a>
-          </Button>
-        )}
-        {project.live && (
-          <Button variant="ghost" size="sm" asChild>
-            <a href={project.live} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="mr-1.5 h-4 w-4" />
-              Live
-            </a>
-          </Button>
+      <div className="mt-auto">
+        <div className="flex flex-wrap gap-2">
+          {project.live && (
+            <Button size="sm" asChild>
+              <a href={project.live} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="mr-1.5 h-4 w-4" />
+                Visit Live
+              </a>
+            </Button>
+          )}
+          {project.github && (
+            <Button variant="secondary" size="sm" asChild>
+              <a href={project.github} target="_blank" rel="noopener noreferrer">
+                <Github className="mr-1.5 h-4 w-4" />
+                Source Code
+              </a>
+            </Button>
+          )}
+        </div>
+        {project.liveNote && (
+          <p className="mt-2.5 text-xs italic text-muted-foreground/80 leading-relaxed">
+            <span className="font-semibold not-italic text-muted-foreground">Note: </span>
+            {project.liveNote}
+          </p>
         )}
       </div>
     </div>
