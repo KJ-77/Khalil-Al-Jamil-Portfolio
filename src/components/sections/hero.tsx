@@ -1,6 +1,16 @@
-import BlurText from "@/components/reactbits/blur-text";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Mail } from "lucide-react";
+
+// Ease-out-quart — natural deceleration, confident stop
+const ease = [0.25, 1, 0.5, 1] as const;
+
+// Staggered fade+slide entrance — each line appears COMPLETE and readable
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, delay, ease },
+});
 
 const Hero = () => {
   return (
@@ -8,24 +18,33 @@ const Hero = () => {
       id="hero"
       className="min-h-screen flex flex-col items-center justify-center px-4 text-center"
     >
-      <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+      <motion.h1
+        {...fadeUp(0)}
+        className="text-5xl md:text-7xl font-bold tracking-tight"
+      >
         Khalil Al Jamil
-      </h1>
+      </motion.h1>
 
-      <BlurText
-        text="Full Stack DevOps Engineer"
-        className="text-xl md:text-2xl text-muted-foreground font-medium justify-center"
-        delay={120}
-        animateBy="words"
-        direction="bottom"
-      />
+      {/* Title is the #1 takeaway — instantly readable, no word-by-word delay */}
+      <motion.p
+        {...fadeUp(0.15)}
+        className="mt-4 text-2xl md:text-4xl text-foreground font-semibold"
+      >
+        Full Stack DevOps Engineer
+      </motion.p>
 
-      <p className="mt-6 text-muted-foreground max-w-lg text-base md:text-lg mx-auto">
+      <motion.p
+        {...fadeUp(0.3)}
+        className="mt-6 text-muted-foreground max-w-xl text-base md:text-lg"
+      >
         I build and deploy scalable web applications — from frontend
         interfaces to cloud infrastructure.
-      </p>
+      </motion.p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <motion.div
+        {...fadeUp(0.45)}
+        className="mt-8 flex flex-col sm:flex-row gap-4 justify-center"
+      >
         <Button size="lg" asChild>
           <a href="#projects">
             <ArrowDown className="mr-2 h-4 w-4" />
@@ -38,7 +57,7 @@ const Hero = () => {
             Get in Touch
           </a>
         </Button>
-      </div>
+      </motion.div>
     </section>
   );
 };

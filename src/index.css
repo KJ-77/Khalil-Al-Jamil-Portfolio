@@ -232,3 +232,16 @@ html.font-plus-jakarta {
 .animate-aurora-1 { animation: aurora-1 20s ease-in-out infinite; }
 .animate-aurora-2 { animation: aurora-2 25s ease-in-out infinite; }
 .animate-aurora-3 { animation: aurora-3 18s ease-in-out infinite; }
+
+/* ── Reduced motion ────────────────────────────────────────────────────
+   Kills CSS animations/transitions for users who prefer reduced motion.
+   Framer Motion animations are handled separately via MotionConfig in App.tsx.
+   ──────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

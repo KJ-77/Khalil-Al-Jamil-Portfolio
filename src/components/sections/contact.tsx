@@ -11,8 +11,8 @@ const contactLinks = [
   {
     icon: Mail,
     label: "Email",
-    href: "mailto:Khalil.aljamil2004@gmail.com",
-    display: "Khalil.aljamil2004@gmail.com",
+    href: "mailto:khalil@aljamil.org",
+    display: "khalil@aljamil.org",
   },
   {
     icon: Linkedin,
@@ -42,30 +42,27 @@ const Contact = () => {
     message: "",
   });
 
-  // TODO: wire up EmailJS here — call emailjs.send() with your service/template IDs
+  // EmailJS wiring lives at the integration layer — keeping the handler local for now
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
   };
 
   return (
-    <section id="contact" className="py-24 px-4">
+    <section id="contact" className="py-28 px-4">
       <div className="max-w-5xl mx-auto">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-            Let's Work Together
-          </h2>
-          <p className="text-muted-foreground text-lg mb-16 text-center max-w-xl mx-auto">
-            I'm always open to new opportunities, collaborations, or just a
-            friendly chat about tech. Feel free to reach out.
-          </p>
-        </FadeIn>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Contact links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+          {/* Left: heading + context + links — fills the column for balance */}
           <FadeIn delay={0.1}>
             <div>
-              <h3 className="text-xl font-semibold mb-6">Get in Touch</h3>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Let's Work Together
+              </h2>
+              <p className="text-muted-foreground text-lg mb-10">
+                I'm always open to new opportunities, collaborations, or just a
+                friendly chat about tech. Feel free to reach out.
+              </p>
+
               <div className="space-y-5">
                 {contactLinks.map((link) => (
                   <a
@@ -82,17 +79,16 @@ const Contact = () => {
                     className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <link.icon className="h-5 w-5 shrink-0" />
-                    <span className="text-sm">{link.display}</span>
+                    <span>{link.display}</span>
                   </a>
                 ))}
               </div>
             </div>
           </FadeIn>
 
-          {/* Email form — ready for EmailJS integration */}
+          {/* Right: form */}
           <FadeIn delay={0.2}>
             <form onSubmit={handleSubmit} className="space-y-5">
-              <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">

@@ -36,6 +36,16 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
+          {/* Easter egg: cyberpunk alt-portfolio served as a static HTML file from /public */}
+          <a
+            href="/neon.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Cyberpunk mode (alt portfolio)"
+            className="font-mono text-[10px] uppercase tracking-[0.2em] px-2 py-1 border border-border/60 rounded hover:border-foreground hover:text-foreground text-muted-foreground transition-colors"
+          >
+            ◆ v2077
+          </a>
           <VariantSwitcher />
           <BackgroundSwitcher />
           <FontSwitcher />
@@ -69,6 +79,16 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
+          {/* Easter egg lives at the bottom of the mobile menu too */}
+          <a
+            href="/neon.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsOpen(false)}
+            className="block px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground hover:bg-accent transition-colors border-t border-border"
+          >
+            ◆ v2077 — cyberpunk mode
+          </a>
         </nav>
       )}
     </header>
