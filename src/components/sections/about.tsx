@@ -1,5 +1,4 @@
 import FadeIn from "@/components/sections/fade-in";
-import { User } from "lucide-react";
 
 const highlights = [
   { value: "3+", label: "Years Experience" },
@@ -18,10 +17,12 @@ const About = () => {
         {/* Profile image + bio — side by side on desktop, stacked on mobile */}
         <div className="flex flex-col md:flex-row gap-10 items-center md:items-start mb-12">
           <FadeIn>
-            {/* TODO: replace placeholder with actual photo via <img src="..." /> */}
-            <div className="shrink-0 w-48 h-48 rounded-2xl border border-border bg-card flex items-center justify-center">
-              <User className="h-16 w-16 text-muted-foreground" />
-            </div>
+            {/* Headshot — square crop with subtle border to match card chrome */}
+            <img
+              src="/assets/headshot.jpg"
+              alt="Khalil Al Jamil"
+              className="shrink-0 w-48 h-48 rounded-2xl border border-border object-cover"
+            />
           </FadeIn>
 
           <div className="flex-1">

@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import VariantSwitcher from "@/components/variant-switcher";
-import BackgroundSwitcher from "@/components/background-switcher";
-import FontSwitcher from "@/components/font-switcher";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -25,7 +22,7 @@ const Navbar = () => {
           KJ
         </a>
 
-        {/* Desktop nav links + variant switcher */}
+        {/* Desktop nav links */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
@@ -46,16 +43,10 @@ const Navbar = () => {
           >
             ◆ v2077
           </a>
-          <VariantSwitcher />
-          <BackgroundSwitcher />
-          <FontSwitcher />
         </nav>
 
-        {/* Mobile: switchers + menu toggle */}
+        {/* Mobile menu toggle */}
         <div className="md:hidden flex items-center gap-2">
-          <VariantSwitcher />
-          <BackgroundSwitcher />
-          <FontSwitcher />
           <button
             className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsOpen(!isOpen)}

@@ -43,6 +43,7 @@ const projects: Project[] = [
       "Serverless",
       "i18next",
     ],
+    image: "/assets/way.png",
     github: "https://github.com/KJ-77",
   },
   {
@@ -59,6 +60,7 @@ const projects: Project[] = [
       "Cognito",
       "GSAP",
     ],
+    image: "/assets/orsa-group.png",
     github: "https://github.com/KJ-77",
   },
   {
@@ -74,6 +76,7 @@ const projects: Project[] = [
       "EmailJS",
       "Vercel",
     ],
+    image: "/assets/hova.png",
     github: "https://github.com/KJ-77",
   },
 ];

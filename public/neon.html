@@ -192,7 +192,18 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
   position:absolute;bottom:-8px;right:10px;color:oklch(0.55 0.12 295 / 0.08);
 }
 .id-card-v3 .avatar .hex{
-  position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:9px;color:oklch(0.55 0.12 295 / 0.6);
+  position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:9px;color:oklch(0.55 0.12 295 / 0.6);z-index:2;
+}
+.id-card-v3 .avatar .avatar-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  /* desaturate + violet tint so the photo reads "cyberpunk dossier" not "LinkedIn headshot" */
+  filter:grayscale(0.7) contrast(1.05) brightness(0.9);
+  mix-blend-mode:luminosity;opacity:0.92;
+}
+.id-card-v3 .avatar::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,transparent 55%,oklch(0.11 0.025 295 / 0.5));
+  box-shadow:inset 0 0 60px oklch(0.74 0.24 295 / 0.35);
 }
 .id-card-v3 dl{display:grid;grid-template-columns:80px 1fr;gap:6px 14px;font-family:var(--mono);font-size:11.5px;}
 .id-card-v3 dt{color:var(--fg-mute);letter-spacing:.14em;text-transform:uppercase;font-size:9.5px;align-self:center;}
@@ -260,6 +271,19 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .dep-mock{border:1px solid var(--line-s);background:oklch(0.11 0.025 295 / 0.7);position:relative;padding:20px;overflow:hidden;}
 .dep-mock svg{width:100%;display:block;}
 .dep-mock .mock-label{font-family:var(--mono);font-size:9px;color:var(--fg-mute);letter-spacing:.18em;margin-bottom:10px;}
+/* Project screenshot — desaturated and tinted to fit the neon dossier aesthetic */
+.dep-shot{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line-s);}
+.dep-shot img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(0.65) contrast(1.05) brightness(0.92);
+  transition:filter .35s ease,transform .35s ease;}
+.dep-shot::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,oklch(0.11 0.025 295 / 0.55)),
+             radial-gradient(ellipse at 50% 0%,oklch(0.74 0.24 295 / 0.18),transparent 60%);
+  mix-blend-mode:overlay;}
+.dep-shot-scan{position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--cyan),transparent);
+  box-shadow:0 0 12px var(--cyan);animation:scan 3.4s ease-in-out infinite;}
+.dep-item:hover .dep-shot img{filter:saturate(0.85) contrast(1.05) brightness(0.98);transform:scale(1.02);}
 
 /* ── TIMELINE ── */
 .tl-v3{position:relative;padding-left:28px;}
@@ -598,6 +622,7 @@ function Identity() {
               <span className="live">● ACTIVE</span>
             </div>
             <div className="avatar">
+              <img src="/assets/headshot.jpg" alt="Khalil Al Jamil" className="avatar-img"/>
               <div className="hex">0x4B4A2D3737</div>
             </div>
             <dl>
@@ -717,15 +742,15 @@ const DEPS = [
   { id:"way",     no:"№01", title:"Way",     tag:"Tutoring & Scheduling SaaS", stack:"React 19 · TS · Lambda · Postgres · Cognito", status:"ok",
     body:"Multi-app platform for a Beirut tutoring business. Public client portal, internal admin dashboard, and a serverless backend on AWS. Two Cognito user pools cleanly separate staff and clients; Postgres on RDS with a typed access layer; Lambda functions deployed via Serverless Framework. Tutors, packages, sessions, and schedules all flow through one API surface.",
     meta:{ regions:"eu-west-3", role:"Full-Stack / DevOps", scope:"3 apps · 1 backend", repo:"private (client work)", year:"2025–26" },
-    mock:"nodes" },
+    image:"/assets/way.png", mock:"nodes" },
   { id:"orsa",    no:"№02", title:"Orsa Group", tag:"Olive Oil E-Commerce", stack:"React · Next.js · Lambda · MySQL · Stripe", status:"ok",
     body:"Full-stack e-commerce for an olive oil brand. Customer storefront with cart, checkout, and Stripe payments; a Next.js admin dashboard for products, orders, and inventory; serverless AWS backend (Lambda + API Gateway + MySQL + S3 for assets). Bilingual EN/AR storefront with GSAP-driven motion and Cognito-backed auth.",
     meta:{ regions:"eu-west", role:"Full-Stack / DevOps", scope:"storefront · admin · API", repo:"github.com/KJ-77", year:"2024" },
-    mock:"chart" },
+    image:"/assets/orsa-group.png", mock:"chart" },
   { id:"hova",    no:"№03", title:"Hova",    tag:"Brand Site · Belgian Chocolate", stack:"React 19 · TS · Vite · Tailwind · Framer", status:"ok",
     body:"A polished single-page marketing site for a Belgian chocolate brand. Animated hero, product gallery with detail views, EmailJS contact form, and a WhatsApp click-to-chat shortcut. Fully responsive, deployed on Vercel with Google Analytics and Meta Pixel wired up for conversion tracking — built tight, shipped fast.",
     meta:{ regions:"vercel edge", role:"Frontend", scope:"single-page · responsive", repo:"github.com/KJ-77", year:"2025" },
-    mock:"map" },
+    image:"/assets/hova.png", mock:"map" },
 ];
 
 function DepMock({ kind }) {
@@ -828,7 +853,14 @@ function Deployments() {
                 </div>
                 <div className="dep-mock">
                   <div className="mock-label">◆ {d.tag.toUpperCase()} / FIG.{d.no}</div>
-                  <DepMock kind={d.mock}/>
+                  {d.image ? (
+                    <div className="dep-shot">
+                      <img src={d.image} alt={d.title + " screenshot"}/>
+                      <div className="dep-shot-scan"></div>
+                    </div>
+                  ) : (
+                    <DepMock kind={d.mock}/>
+                  )}
                 </div>
               </div>
             </div>
