@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Khalil Al Jamil — NEON CITY / 2077</title>
+<link rel="icon" type="image/svg+xml" href="purple.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
@@ -11,6 +12,19 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- EmailJS browser SDK (v4) — UMD build exposes window.emailjs.
+     Public values are domain-restricted in the EmailJS dashboard, safe to ship inline. -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js" crossorigin="anonymous"></script>
+<script>
+  // Hardcoded here because neon.html is served as a static file (no Vite env injection).
+  // Mirror values from .env.local; rotate everywhere if you ever rotate the public key.
+  window.__EMAILJS_CONFIG = {
+    serviceId:  "service_ng29dlh",
+    templateId: "template_zz17gcs",
+    publicKey:  "rhp2vNTKa0sC1H8uz",
+  };
+</script>
 
 <style>
 :root {
@@ -111,7 +125,10 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .panel::after{content:"";position:absolute;bottom:-1px;right:-1px;width:12px;height:12px;border-bottom:1px solid var(--violet);border-right:1px solid var(--violet);}
 
 /* ── HERO ── */
-.hero{min-height:calc(100vh - 44px);display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden;}
+/* min-height stacked: vh as the legacy fallback, dvh as the modern value.
+   dvh tracks the *current* visible viewport, so the hero doesn't resize when the
+   mobile address bar shows/hides — kills the rubberband-on-scroll bug. */
+.hero{min-height:calc(100vh - 44px);min-height:calc(100dvh - 44px);display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden;}
 .hero-inner{display:flex;flex-direction:column;justify-content:center;padding:80px 48px 40px;}
 @media(max-width:800px){.hero-inner{padding:60px 20px 32px;}}
 
@@ -244,7 +261,7 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
   display:grid;grid-template-columns:56px 1fr auto 100px 32px;gap:20px;align-items:center;
   transition:padding .25s,background .2s;position:relative;overflow:hidden;
 }
-.dep-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(to right,oklch(0.74 0.24 295 / 0.12),transparent);transition:width .3s;}
+.dep-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(to right,oklch(0.74 0.24 295 / 0.12),transparent);transition:width .3s;pointer-events:none;}
 .dep-item:hover{padding-left:18px;background:oklch(0.17 0.035 295 / 0.4);}
 .dep-item:hover::before{width:100%;}
 .dep-item .d-no{font-family:var(--mono);font-size:10.5px;color:var(--fg-mute);letter-spacing:.14em;}
@@ -267,7 +284,9 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .dep-meta{display:grid;grid-template-columns:100px 1fr;gap:4px 14px;font-family:var(--mono);font-size:11px;}
 .dep-meta dt{color:var(--fg-mute);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;align-self:center;}
 .dep-meta dd{margin:0;color:var(--cyan);}
-.dep-actions{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;}
+/* z-index lifts the action row above the .dep-item::before hover overlay so clicks land on the buttons */
+.dep-actions{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:2;}
+.dep-actions .btn-v3{position:relative;z-index:2;}
 .dep-note{
   margin:14px 0 0;font-family:var(--mono);font-size:11px;line-height:1.55;
   color:var(--fg-mute);font-style:italic;letter-spacing:.02em;
@@ -287,7 +306,7 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
   background:linear-gradient(180deg,transparent 60%,oklch(0.11 0.025 295 / 0.55)),
              radial-gradient(ellipse at 50% 0%,oklch(0.74 0.24 295 / 0.18),transparent 60%);
   mix-blend-mode:overlay;}
-.dep-shot-scan{position:absolute;left:0;right:0;top:0;height:2px;
+.dep-shot-scan{position:absolute;left:0;right:0;top:0;height:2px;pointer-events:none;
   background:linear-gradient(to right,transparent,var(--cyan),transparent);
   box-shadow:0 0 12px var(--cyan);animation:scan 3.4s ease-in-out infinite;}
 .dep-item:hover .dep-shot img{filter:saturate(0.85) contrast(1.05) brightness(0.98);transform:scale(1.02);}
@@ -335,6 +354,95 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .contact-row .cv{color:var(--fg);}
 .contact-row:hover .cv{color:var(--violet);text-shadow:0 0 10px oklch(0.74 0.24 295 / 0.5);}
 .contact-row .ca{font-size:9.5px;letter-spacing:.14em;color:var(--fg-mute);text-transform:uppercase;}
+
+/* ── SIGNAL FORM (EmailJS-backed transmission) ── */
+.signal-form{display:flex;flex-direction:column;gap:14px;}
+.signal-form-head{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--fg-mute);
+  text-transform:uppercase;display:flex;justify-content:space-between;margin-bottom:6px;
+}
+.signal-form-head .act{color:var(--cyan);text-shadow:0 0 8px var(--cyan);}
+.signal-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.signal-form-row{grid-template-columns:1fr;}}
+.signal-field{display:flex;flex-direction:column;gap:6px;}
+.signal-field label{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  color:var(--fg-mute);text-transform:uppercase;
+}
+/* Inputs — sharp brutalist boxes that focus to a violet glow */
+.signal-field input,
+.signal-field textarea{
+  width:100%;background:oklch(0.11 0.025 295 / 0.6);
+  border:1px solid var(--line);color:var(--fg);
+  padding:11px 13px;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.02em;border-radius:0;outline:none;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  -webkit-appearance:none;appearance:none;
+}
+.signal-field input:focus,
+.signal-field textarea:focus{
+  border-color:var(--violet);background:oklch(0.14 0.03 295 / 0.7);
+  box-shadow:0 0 0 1px var(--violet),0 0 18px oklch(0.74 0.24 295 / 0.22);
+}
+.signal-field input::placeholder,
+.signal-field textarea::placeholder{
+  color:oklch(0.55 0.12 295 / 0.5);font-family:var(--mono);
+}
+.signal-field textarea{resize:vertical;min-height:130px;line-height:1.6;}
+.signal-field input:disabled,
+.signal-field textarea:disabled{opacity:.5;cursor:not-allowed;}
+
+/* Submit — full-width neon CTA, mirrors btn-v3 but bigger */
+.signal-submit{
+  width:100%;padding:14px 18px;margin-top:4px;
+  background:transparent;border:1px solid var(--violet);color:var(--violet);
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;text-shadow:0 0 8px oklch(0.74 0.24 295 / 0.5);
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+}
+.signal-submit:hover:not(:disabled){
+  background:var(--violet);color:var(--void);
+  box-shadow:0 0 28px var(--violet);text-shadow:none;
+}
+.signal-submit:disabled{opacity:.55;cursor:not-allowed;}
+.signal-submit .pulse{
+  display:inline-block;width:8px;height:8px;background:currentColor;
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+/* Status row — green for OK, amber for failure, both with cyberpunk glow */
+.signal-status{
+  padding:11px 14px;font-family:var(--mono);font-size:11px;line-height:1.55;
+  letter-spacing:.04em;border-left:2px solid var(--ok);
+  background:oklch(0.78 0.16 155 / 0.06);color:var(--ok);
+  text-shadow:0 0 8px oklch(0.78 0.16 155 / 0.4);
+  display:flex;align-items:flex-start;gap:8px;
+}
+.signal-status.error{
+  border-left-color:var(--warn);background:oklch(0.80 0.18 70 / 0.06);
+  color:var(--warn);text-shadow:0 0 8px oklch(0.80 0.18 70 / 0.4);
+}
+.signal-status .icon{flex-shrink:0;font-weight:700;}
+
+/* Compacted channel list shown beneath the form */
+.signal-channels{margin-top:18px;padding-top:18px;border-top:1px dashed var(--line-s);}
+.signal-channels-head{
+  font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fg-mute);margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.signal-channels-head::before,
+.signal-channels-head::after{content:"";flex:1;height:1px;background:var(--line-s);}
+.signal-channels-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px;}
+@media(max-width:640px){.signal-channels-list{grid-template-columns:1fr;}}
+.signal-channels-list a{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:6px 0;font-family:var(--mono);font-size:11px;color:var(--fg-dim);
+  transition:color .15s,padding .15s;
+}
+.signal-channels-list a:hover{color:var(--violet);text-shadow:0 0 8px oklch(0.74 0.24 295 / 0.5);padding-left:4px;}
+.signal-channels-list .ck{color:var(--fg-mute);font-size:9px;letter-spacing:.18em;text-transform:uppercase;flex-shrink:0;}
+.signal-channels-list .cv{color:inherit;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
 
 /* ── buttons ── */
 .btn-v3{
@@ -385,16 +493,21 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
    intact while reflowing the chrome that wasn't designed for narrow viewports.
    ────────────────────────────────────────────────────────────────────── */
 
-/* Tablet & phone — strip the topbar down to logo + ONLINE + CONFIG */
+/* Tablet & phone — strip the topbar down to logo + ONLINE + CONFIG.
+   The Clock and "BEY / LB" span are hidden because the per-second clock tick
+   was reflowing the flex layout and visibly jittering the topbar on narrow viewports. */
 @media(max-width:760px){
   .topbar{padding:0 16px;height:48px;}
-  .topbar .left{gap:12px;}
-  .topbar .right{gap:10px;}
+  .topbar .left{gap:12px;min-width:0;}
+  .topbar .right{gap:10px;min-width:0;}
+  .topbar .right > span{display:none;}
   .topbar .logo{font-size:12px;}
   .topbar .nav-links{display:none;}
   .topbar .live{font-size:9.5px;}
   .topbar .btn-contact{padding:5px 10px;font-size:9px;letter-spacing:.14em;}
   .page{padding-top:48px;}
+  /* Hero compensates for the taller mobile topbar; dvh keeps it stable across address-bar transitions */
+  .hero{min-height:calc(100vh - 48px);min-height:calc(100dvh - 48px);}
 }
 
 /* Phones — lighten the kanji watermark so it doesn't bleed into copy */
@@ -1025,13 +1138,48 @@ function Chronicle() {
 window.Chronicle = Chronicle;
 
 // ── SIGNAL (contact) ──
+const SIGNAL_CHANNELS = [
+  { k:"email",    v:"khalil@aljamil.org",                href:"mailto:khalil@aljamil.org" },
+  { k:"github",   v:"github.com/KJ-77",                  href:"https://github.com/KJ-77" },
+  { k:"linkedin", v:"linkedin.com/in/khalil-aljamil",    href:"https://www.linkedin.com/in/khalil-aljamil/" },
+  { k:"phone",    v:"+961 70 779 950",                   href:"tel:+96170779950" },
+];
+
+const SIGNAL_INITIAL = { name:"", email:"", subject:"", message:"" };
+
 function Signal() {
-  const rows = [
-    { k:"email",    v:"khalil@aljamil.org",     a:"COMPOSE ↗", href:"mailto:khalil@aljamil.org" },
-    { k:"github",   v:"github.com/KJ-77",                 a:"VISIT ↗",   href:"https://github.com/KJ-77" },
-    { k:"linkedin", v:"linkedin.com/in/khalil-aljamil",   a:"CONNECT ↗", href:"https://www.linkedin.com/in/khalil-aljamil/" },
-    { k:"phone",    v:"+961 70 779 950",                  a:"CALL ↗",    href:"tel:+96170779950" },
-  ];
+  const [form, setForm] = useState(SIGNAL_INITIAL);
+  // status: { kind: "idle" | "sending" | "success" | "error", message?: string }
+  const [status, setStatus] = useState({ kind:"idle" });
+  const sending = status.kind === "sending";
+
+  const update = (k) => (e) => setForm(s => ({...s, [k]: e.target.value}));
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const cfg = window.__EMAILJS_CONFIG;
+    // Defensive: surfaces config drift loudly instead of silently no-op'ing
+    if (!window.emailjs || !cfg || !cfg.serviceId || !cfg.templateId || !cfg.publicKey) {
+      setStatus({ kind:"error", message:"TRANSMITTER OFFLINE — REACH ME VIA THE CHANNELS BELOW." });
+      return;
+    }
+    setStatus({ kind:"sending" });
+    try {
+      await window.emailjs.send(cfg.serviceId, cfg.templateId, {
+        name:    form.name.trim(),
+        email:   form.email.trim(),
+        subject: form.subject.trim(),
+        message: form.message.trim(),
+      }, { publicKey: cfg.publicKey });
+      setStatus({ kind:"success" });
+      setForm(SIGNAL_INITIAL);
+    } catch (err) {
+      // EmailJS rejections come as { status, text } — fall back to message/string
+      const msg = (err && (err.text || err.message)) || "SIGNAL LOST — TRY AGAIN.";
+      setStatus({ kind:"error", message: String(msg).toUpperCase() });
+    }
+  };
+
   return (
     <section id="signal" style={{position:"relative"}}>
       <div className="kanji-bg">接</div>
@@ -1053,18 +1201,73 @@ function Signal() {
             Currently open to mid-level full-stack and DevOps roles — remote-friendly, based in Beirut. Well-scoped freelance engagements considered. Inbox triaged within 24h.
           </div>
         </div>
+
         <div className="panel contact-panel">
-          <div className="cp-head">
-            <span>◆ CHANNELS // KJ.NET</span>
-            <span className="act">● LINK OPEN</span>
-          </div>
-          {rows.map(r => (
-            <a key={r.k} className="contact-row" href={r.href} target="_blank" rel="noopener noreferrer">
-              <span className="ck">{r.k}</span>
-              <span className="cv">{r.v}</span>
-              <span className="ca">{r.a}</span>
-            </a>
-          ))}
+          <form className="signal-form" onSubmit={submit}>
+            <div className="signal-form-head">
+              <span>◆ TRANSMISSION FORM // KJ.NET</span>
+              <span className="act">● {sending ? "TRANSMITTING" : "READY"}</span>
+            </div>
+
+            <div className="signal-form-row">
+              <div className="signal-field">
+                <label htmlFor="sig-name">name</label>
+                <input id="sig-name" type="text" value={form.name} onChange={update("name")}
+                  placeholder="your name" required disabled={sending} maxLength={120}/>
+              </div>
+              <div className="signal-field">
+                <label htmlFor="sig-email">email</label>
+                <input id="sig-email" type="email" value={form.email} onChange={update("email")}
+                  placeholder="your@email.com" required disabled={sending} maxLength={200}/>
+              </div>
+            </div>
+
+            <div className="signal-field">
+              <label htmlFor="sig-subject">subject</label>
+              <input id="sig-subject" type="text" value={form.subject} onChange={update("subject")}
+                placeholder="re: ..." required disabled={sending} maxLength={200}/>
+            </div>
+
+            <div className="signal-field">
+              <label htmlFor="sig-message">message</label>
+              <textarea id="sig-message" value={form.message} onChange={update("message")}
+                placeholder="transmit your payload..." required disabled={sending}
+                rows={5} maxLength={5000}/>
+            </div>
+
+            <button type="submit" className="signal-submit" disabled={sending}>
+              {sending
+                ? <><span className="pulse"></span> TRANSMITTING<span className="pulse"></span></>
+                : <>SEND TRANSMISSION ↗</>}
+            </button>
+
+            {status.kind === "success" && (
+              <div className="signal-status" role="status">
+                <span className="icon">◆</span>
+                <span>TRANSMISSION RECEIVED — I'LL RESPOND WITHIN 24H.</span>
+              </div>
+            )}
+            {status.kind === "error" && (
+              <div className="signal-status error" role="alert">
+                <span className="icon">◇</span>
+                <span>{status.message}</span>
+              </div>
+            )}
+
+            <div className="signal-channels">
+              <div className="signal-channels-head">DIRECT CHANNELS</div>
+              <div className="signal-channels-list">
+                {SIGNAL_CHANNELS.map(c => (
+                  <a key={c.k} href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}>
+                    <span className="ck">{c.k}</span>
+                    <span className="cv">{c.v}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>
