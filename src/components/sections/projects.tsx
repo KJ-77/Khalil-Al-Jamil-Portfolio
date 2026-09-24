@@ -2,7 +2,8 @@ import FadeIn from "@/components/sections/fade-in";
 import SpotlightCard from "@/components/reactbits/spotlight-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, ImageIcon, Star } from "lucide-react";
+import { testimonials } from "@/data/testimonials";
+import { ArrowDown, ExternalLink, Github, ImageIcon, Star } from "lucide-react";
 
 interface Project {
   title: string;
@@ -49,24 +50,22 @@ const projects: Project[] = [
     live: "https://waybeirut.com",
   },
   {
-    title: "Orsa Group",
-    blurb: "Olive oil e-commerce platform",
+    title: "Brand&",
+    blurb: "Branding studio site — Beirut",
     description:
-      "Full-stack e-commerce: React storefront with Stripe checkout, Next.js admin dashboard, serverless AWS backend (Lambda + API Gateway + MySQL + S3). Bilingual EN/AR with GSAP-driven motion.",
+      "React rebuild of a branding studio's Squarespace site. 18 case studies rendered from data through one shared layout, ~500MB of source photography shipped as ~20MB of WebP, and every route audited in headless Chromium for cropped images on mobile.",
     tech: [
-      "React",
-      "Next.js",
-      "AWS Lambda",
-      "MySQL",
-      "Stripe",
-      "Cognito",
-      "GSAP",
+      "React 19",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "React Router",
+      "Vercel",
     ],
-    image: "/assets/orsa-group.png",
-    github: "https://github.com/KJ-77/ORSA-GROUP1",
-    live: "https://orsa-group-1.vercel.app/",
-    liveNote:
-      "Original domain (orsagroup.online) expired and the owners didn't renew — Vercel preview URL kept for portfolio purposes.",
+    image: "/assets/brandand.webp",
+    github: "https://github.com/KJ-77/BrandAnd",
+    live: "https://brandand.group",
   },
   {
     title: "Hova",
@@ -86,6 +85,45 @@ const projects: Project[] = [
     live: "https://hovalb.com",
   },
 ];
+
+// Client quote on a project card that jumps down to the full review in Kind Words.
+// Renders nothing unless a testimonial in src/data/testimonials.ts names this project.
+const ReviewTeaser = ({
+  projectTitle,
+  className = "",
+}: {
+  projectTitle: string;
+  className?: string;
+}) => {
+  const review = testimonials.find((t) => t.project === projectTitle);
+  if (!review) return null;
+
+  return (
+    <a
+      href={`#${review.id}`}
+      className={`group/review flex items-center gap-3 ${className}`}
+    >
+      {/* Empty alt: the reviewer's name is in the link text right beside it */}
+      <img
+        src={review.photo}
+        alt=""
+        width={36}
+        height={36}
+        loading="lazy"
+        className="h-9 w-9 shrink-0 rounded-full border border-border object-cover"
+      />
+      <span className="text-sm leading-snug">
+        <span className="block italic text-foreground/90">
+          “{review.teaser}”
+        </span>
+        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground group-hover/review:text-foreground transition-colors">
+          {review.name} · Read the review
+          <ArrowDown className="h-3 w-3" />
+        </span>
+      </span>
+    </a>
+  );
+};
 
 // Featured/hero card — horizontal layout on lg+, stacked on smaller screens
 const FeaturedProjectCard = ({ project }: { project: Project }) => (
@@ -138,6 +176,8 @@ const FeaturedProjectCard = ({ project }: { project: Project }) => (
             ))}
           </ul>
         )}
+
+        <ReviewTeaser projectTitle={project.title} className="mb-5" />
 
         {/* Role / year meta row */}
         {(project.role || project.year) && (
@@ -224,6 +264,8 @@ const CompactProjectCard = ({ project }: { project: Project }) => (
       <p className="text-sm text-muted-foreground mb-4 flex-1">
         {project.description}
       </p>
+
+      <ReviewTeaser projectTitle={project.title} className="mb-4" />
 
       <div className="flex flex-wrap gap-1.5 mb-4">
         {project.tech.map((t) => (

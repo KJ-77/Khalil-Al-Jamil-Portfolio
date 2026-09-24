@@ -298,7 +298,8 @@ section{padding:100px 48px;border-bottom:1px solid var(--line-s);position:relati
 .dep-mock svg{width:100%;display:block;}
 .dep-mock .mock-label{font-family:var(--mono);font-size:9px;color:var(--fg-mute);letter-spacing:.18em;margin-bottom:10px;}
 /* Project screenshot — desaturated and tinted to fit the neon dossier aesthetic */
-.dep-shot{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line-s);}
+/* 16:9 matches the ~1904x1079 screenshots, so cover no longer trims the page edges (logos sit there) */
+.dep-shot{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line-s);}
 .dep-shot img{width:100%;height:100%;object-fit:cover;display:block;
   filter:saturate(0.65) contrast(1.05) brightness(0.92);
   transition:filter .35s ease,transform .35s ease;}
@@ -956,13 +957,12 @@ const DEPS = [
     live:"https://waybeirut.com",
     repo:"https://github.com/KJ-77/Way",
     image:"/assets/way.png", mock:"nodes" },
-  { id:"orsa",    no:"№02", title:"Orsa Group", tag:"Olive Oil E-Commerce", stack:"React · Next.js · Lambda · MySQL · Stripe", status:"ok",
-    body:"Full-stack e-commerce for an olive oil brand. Customer storefront with cart, checkout, and Stripe payments; a Next.js admin dashboard for products, orders, and inventory; serverless AWS backend (Lambda + API Gateway + MySQL + S3 for assets). Bilingual EN/AR storefront with GSAP-driven motion and Cognito-backed auth.",
-    meta:{ regions:"vercel edge", role:"Full-Stack / DevOps", scope:"storefront · admin · API", repo:"github.com/KJ-77/ORSA-GROUP1", year:"2024" },
-    live:"https://orsa-group-1.vercel.app/",
-    liveNote:"Original domain (orsagroup.online) expired and the owners didn't renew — Vercel preview URL kept for portfolio purposes.",
-    repo:"https://github.com/KJ-77/ORSA-GROUP1",
-    image:"/assets/orsa-group.png", mock:"chart" },
+  { id:"brandand", no:"№02", title:"Brand&", tag:"Branding Studio Site", stack:"React 19 · TS · Vite · Tailwind · shadcn/ui", status:"ok",
+    body:"React rebuild of a Beirut branding studio's Squarespace site. Eighteen case studies rendered from plain data through one shared layout component, roughly 500MB of source photography shipped as ~20MB of WebP, and every route swept by a headless-Chromium audit at phone and desktop widths for cropped images and horizontal overflow. Deployed on Vercel.",
+    meta:{ regions:"vercel edge", role:"Frontend", scope:"18 case studies · 1 layout", repo:"github.com/KJ-77/BrandAnd", year:"2025–26" },
+    live:"https://brandand.group",
+    repo:"https://github.com/KJ-77/BrandAnd",
+    image:"/assets/brandand.webp", mock:"chart" },
   { id:"hova",    no:"№03", title:"Hova",    tag:"Brand Site · Belgian Chocolate", stack:"React 19 · TS · Vite · Tailwind · Framer", status:"ok",
     body:"A polished single-page marketing site for a Belgian chocolate brand. Animated hero, product gallery with detail views, EmailJS contact form, and a WhatsApp click-to-chat shortcut. Fully responsive, deployed on Vercel with Google Analytics and Meta Pixel wired up for conversion tracking — built tight, shipped fast.",
     meta:{ regions:"vercel edge", role:"Frontend", scope:"single-page · responsive", repo:"github.com/KJ-77/Hova", year:"2025" },
@@ -1105,9 +1105,9 @@ window.Deployments = Deployments;
 // ── CHRONICLE ──
 const TL = [
   { y:"2023", t:"First Commit",            role:"Self-taught · Beirut",   desc:"React finds me. JavaScript becomes the first language I think in. Spend nights pulling apart Vite, TypeScript, and the React render tree until it clicks.", now:false },
-  { y:"2024", t:"Orsa Group · First Production Stack", role:"Full-Stack / DevOps", desc:"Ship a real e-commerce platform end-to-end: React storefront, Next.js admin, Lambda + MySQL backend, Stripe payments, Cognito auth, S3 for assets. Learn what production actually means.", now:false },
   { y:"2025", t:"Hova · Brand Site",       role:"Frontend",               desc:"A tight, animated single-page brand site for a Belgian chocolate company. Framer Motion, EmailJS, WhatsApp deep-link, Google Analytics, Meta Pixel, Vercel deploy. Built fast, shipped clean.", now:false },
   { y:"2025", t:"Way · SaaS Platform",     role:"Full-Stack / DevOps",    desc:"Lead engineering on a multi-app tutoring SaaS for a Beirut client: client portal, admin dashboard, serverless backend on AWS with Postgres on RDS, dual Cognito user pools, Vitest-tested business logic.", now:false },
+  { y:"2026", t:"Brand& · Studio Site",    role:"Frontend",               desc:"Rebuild a Beirut branding studio's Squarespace site in React: eighteen data-driven case studies behind one layout, a WebP pipeline for the photography, and a headless-browser audit that keeps every page clean on phones.", now:false },
   { y:"2026", t:"Now",                     role:"Open to Work",           desc:"Mid-level full-stack or DevOps roles. Remote-friendly, based in Beirut. Comfortable owning a feature from Figma to Lambda. Inbox open.", now:true },
 ];
 
@@ -1123,7 +1123,7 @@ function Chronicle() {
       </div>
       <div className="tl-v3">
         {TL.map(e => (
-          <div key={e.y} className={"tl-entry" + (e.now?" now":"")}>
+          <div key={e.y + e.t} className={"tl-entry" + (e.now?" now":"")}>
             <div className="t-year">{e.y}</div>
             {e.now && <div className="t-now-badge">◆ NOW — OPEN TO WORK</div>}
             <div className="t-title">{e.t}</div>
