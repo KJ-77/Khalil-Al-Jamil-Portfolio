@@ -35,6 +35,24 @@ export const testimonials: Testimonial[] = [
     website: { label: "brandand.group", href: "https://brandand.group" },
     email: "lama@brandand.group",
   },
+  {
+    id: "review-tarek-ramadan",
+    project: "Way",
+    paragraphs: [
+      "Khalil was extremely professional, flexible, and reliable throughout the entire process. The system he developed significantly improved our workflow and upgraded our F&B operations. Thank you, Khalil, no more Excel sheets haha!",
+    ],
+    highlights: [
+      "extremely professional, flexible, and reliable",
+      "significantly improved our workflow",
+      "no more Excel sheets haha!",
+    ],
+    teaser: "Khalil was extremely professional, flexible, and reliable throughout the entire process.",
+    name: "Tarek Ramadan",
+    role: "Founder, Way",
+    photo: "/assets/tarek-ramadan.webp",
+    website: { label: "waybeirut.com", href: "https://waybeirut.com" },
+    email: "Tarek.ramadan97@outlook.com",
+  },
 ];
 
 // Dev-only guard: highlights and teasers must be verbatim excerpts of the review.

@@ -26,7 +26,7 @@ const projects: Project[] = [
     title: "Way",
     blurb: "Tutoring & scheduling SaaS — Beirut",
     description:
-      "Multi-app platform for a Beirut tutoring business. A public client portal, an internal admin dashboard, and a serverless backend on AWS — all sharing one cleanly-versioned Postgres schema and a typed access layer.",
+      "Multi-app platform for a Beirut tutoring atelier with its own in-house café. A public client portal, an internal admin dashboard, and a serverless backend on AWS — all sharing one cleanly-versioned Postgres schema and a typed access layer.",
     highlights: [
       "Dual Cognito user pools cleanly separate staff and clients",
       "Serverless backend on AWS Lambda + API Gateway, Postgres on RDS",
